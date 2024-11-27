@@ -2,46 +2,6 @@
 #include "class.h"
     
 
-    size_t FlatMap::std_comparer(std::string first, std::string second) { //tut vse eshe max
-        size_t len_first = first.size();
-        size_t len_second = second.size();
-        size_t len_min = std::min(len_first, len_second); //len_min
-        if (len_min == 0)
-            if (len_first == len_second)
-                return 2;
-            else
-                return (len_second == 0);
-        for (size_t i = 0; i < len_min; ++i)
-            if (first[i] != second[i])
-                return ((first[i] - second[i]) > 0); //first > second?
-        if (len_first != len_second)
-            return (len_first > len_second);
-        else return 2; //если строки равны
-    }
-
-    size_t FlatMap::binarys_search(std::string** bebix, const std::string* argument) {
-        int len = (int)(sizez - 1);
-        int start = 0;
-        int finish = len;
-        for (int index_medium = len / 2; ;) {
-            if (start > finish) {
-                return (size_t)start;
-            }
-            index_medium = start + (finish - start) / 2;
-            size_t compare = std_comparer(*argument, *bebix[index_medium]);
-            if (compare == 2)
-                return index_medium;
-            else
-                if (compare) {
-                    start = index_medium + 1;
-                }
-                else {
-                    finish = index_medium - 1;
-                }
-        }
-        return 0;
-    }
-
     std::string** map;
     size_t sizez;
 
@@ -185,4 +145,44 @@
         }
         map = NULL;
         sizez = 0;
+    }
+
+    size_t FlatMap::std_comparer(std::string first, std::string second) { //tut vse eshe max
+        size_t len_first = first.size();
+        size_t len_second = second.size();
+        size_t len_min = std::min(len_first, len_second); //len_min
+        if (len_min == 0)
+            if (len_first == len_second)
+                return 2;
+            else
+                return (len_second == 0);
+        for (size_t i = 0; i < len_min; ++i)
+            if (first[i] != second[i])
+                return ((first[i] - second[i]) > 0); //first > second?
+        if (len_first != len_second)
+            return (len_first > len_second);
+        else return 2; //если строки равны
+    }
+
+    size_t FlatMap::binarys_search(std::string** bebix, const std::string* argument) {
+        int len = (int)(sizez - 1);
+        int start = 0;
+        int finish = len;
+        for (int index_medium = len / 2; ;) {
+            if (start > finish) {
+                return (size_t)start;
+            }
+            index_medium = start + (finish - start) / 2;
+            size_t compare = std_comparer(*argument, *bebix[index_medium]);
+            if (compare == 2)
+                return index_medium;
+            else
+                if (compare) {
+                    start = index_medium + 1;
+                }
+                else {
+                    finish = index_medium - 1;
+                }
+        }
+        return 0;
     }
