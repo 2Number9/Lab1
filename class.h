@@ -4,14 +4,16 @@
 
 class FlatMap {
 
+
+private:
+    size_t std_comparer(std::string first, std::string second); //tut vse eshe max
+
+    size_t binarys_search(std::string** bebix, const std::string* argument);
+
 public:
 
     std::string** map;
     size_t sizez;
-
-    size_t std_comparer(std::string first, std::string second); //tut vse eshe max
-
-    size_t binarys_search(std::string** bebix, const std::string* argument);
 
     FlatMap();
     

@@ -2,9 +2,6 @@
 #include "class.h"
     
 
-    std::string** map;
-    size_t sizez;
-    
     size_t FlatMap::std_comparer(std::string first, std::string second) { //tut vse eshe max
         size_t len_first = first.size();
         size_t len_second = second.size();
@@ -23,14 +20,12 @@
     }
 
     size_t FlatMap::binarys_search(std::string** bebix, const std::string* argument) {
-        std::string* last;
-        size_t len = 0;
-        len = sizez - 1;
+        int len = (int)(sizez - 1);
         int start = 0;
         int finish = len;
         for (int index_medium = len / 2; ;) {
             if (start > finish) {
-                return start;
+                return (size_t)start;
             }
             index_medium = start + (finish - start) / 2;
             size_t compare = std_comparer(*argument, *bebix[index_medium]);
@@ -47,7 +42,8 @@
         return 0;
     }
 
-
+    std::string** map;
+    size_t sizez;
 
 
     // стандартный конструктор
@@ -64,7 +60,7 @@
         else {
             size_t len = sizez;
             map = new (std::string * [len]);
-            for (int i = 0; i < len; i++)
+            for (size_t i = 0; i < len; i++)
                 map[i] = new std::string[2];
             for (size_t i = 0; i < len; ++i)
                 for (size_t index = 0; index < 2; ++index) {
@@ -119,16 +115,23 @@
                 return map[index][1];
             }
             size_t index = binarys_search(map, &key);
-            std::string** bla = new std::string * [sizez + 1];
+            std::string** value = new std::string * [sizez + 1];
             for (size_t i = 0; i < index; i++) {
-                bla[i] = map[i];
+                value[i] = new std::string[2];
+                value[i][0] = map[i][0];
+                value[i][1] = map[i][1];
+                delete[] map[i];
             }
-            bla[index] = new std::string[2];
-            bla[index][0] = key;
+            value[index] = new std::string[2];
+            value[index][0] = key;
             for (size_t i = index; i < sizez; i++) {
-                bla[i + 1] = map[i];
+                value[i + 1] = new std::string[2];
+                value[i + 1][0] = map[i][0];
+                value[i + 1][1] = map[i][1];
+                delete[] map[i];
             }
-            map = bla;
+            delete[] map;
+            map = value;
             sizez++;
             return map[index][1];
         }
@@ -149,13 +152,20 @@
         if (this->contains(key)) {
             size_t index = binarys_search(map, &key);
             std::string** bill = new std::string * [sizez];
-            for (int i = 0; i < index; i++) {
+            for (size_t i = 0; i < index; i++) {
                 bill[i] = new std::string[2];
-                bill[i] = map[i];
+                bill[i][0] = map[i][0];
+                bill[i][1] = map[i][1];
+                delete[] map[i];
             }
-            for (int i = index; i < sizez - 1; i++) {
-                bill[i] = map[i + 1]; //
+            delete[] map[index];
+            for (size_t i = index; i < sizez - 1; i++) {
+                bill[i] = new std::string[2];
+                bill[i][0] = map[i + 1][0]; //
+                bill[i][1] = map[i + 1][1];
+                delete[] map[i + 1];
             }
+            delete[] map;
             map = bill;
             sizez--;
             return 1;
