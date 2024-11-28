@@ -41,6 +41,8 @@
 
     // оператор присваивания
     FlatMap& FlatMap::operator=(const FlatMap& other_map) {
+        if (this == &other_map)
+            return *this;
         sizez = other_map.sizez;
         if (sizez) {
             map = new std::string * [sizez];
@@ -147,7 +149,7 @@
         sizez = 0;
     }
 
-    size_t FlatMap::std_comparer(std::string first, std::string second) { //tut vse eshe max
+    size_t FlatMap::std_comparer(std::string first, std::string second) { //first > second ? (on code)
         size_t len_first = first.size();
         size_t len_second = second.size();
         size_t len_min = std::min(len_first, len_second); //len_min
@@ -165,7 +167,7 @@
     }
 
     size_t FlatMap::binarys_search(std::string** bebix, const std::string* argument) {
-        int len = (int)(sizez - 1);
+        int len = static_cast<int> (sizez - 1);
         int start = 0;
         int finish = len;
         for (int index_medium = len / 2; ;) {
